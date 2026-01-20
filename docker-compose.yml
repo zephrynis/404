@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  # Name this whatever you like
+  svelte-catchall:
+    # This tells Dokploy to build the Dockerfile in your repo
+    build: . 
+    restart: unless-stopped
+    
+    # Ensure this matches the PORT your Svelte app listens on internally
+    # (SvelteKit/Node usually defaults to 3000, check your Dockerfile EXPOSE)
+    expose:
+      - 3000
+      
+    networks:
+      - dokploy-network
+      
+    labels:
+      - "traefik.enable=true"
+      
+      # --- HTTP Router (Port 80) ---
+      - "traefik.http.routers.svelte-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.svelte-catchall.priority=1"
+      - "traefik.http.routers.svelte-catchall.entrypoints=web"
+      - "traefik.http.routers.svelte-catchall.service=svelte-svc"
+
+      # --- HTTPS Router (Port 443) ---
+      - "traefik.http.routers.svelte-catchall-secure.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.svelte-catchall-secure.priority=1"
+      - "traefik.http.routers.svelte-catchall-secure.entrypoints=websecure"
+      - "traefik.http.routers.svelte-catchall-secure.tls=true"
+      - "traefik.http.routers.svelte-catchall-secure.service=svelte-svc"
+
+      # --- Service Definition ---
+      # MUST match the internal port of your Svelte app
+      - "traefik.http.services.svelte-svc.loadbalancer.server.port=3000"
+
+# Join the network where Traefik lives
+networks:
+  dokploy-network:
+    external: true
