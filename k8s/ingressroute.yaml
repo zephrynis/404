@@ -13,5 +13,4 @@ spec:
     services:
     - name: fallback-404
       port: 80
-  tls:
-    secretName: cloudflare-origin-cert # If you use Cloudflare Origin CA, otherwise Traefik's default cert
+  tls: {}
