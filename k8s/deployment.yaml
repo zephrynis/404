@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fallback-404
-        image: zephrynis/fallback-404:latest # Replace with your actual image
+        image: ghcr.io/zephrynis/404:latest
         ports:
         - containerPort: 80
         resources:
