@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fallback-404
+  labels:
+    app: fallback-404
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fallback-404
+  template:
+    metadata:
+      labels:
+        app: fallback-404
+    spec:
+      containers:
+      - name: fallback-404
+        image: zephrynis/fallback-404:latest # Replace with your actual image
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+          requests:
+            cpu: "10m"
+            memory: "64Mi"

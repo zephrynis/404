@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: global-fallback
+  namespace: default # Change this if your app is in a different namespace
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: HostRegexp(`{host:.+}`) # Matches ANY hostname on ANY domain
+    kind: Rule
+    priority: 1                  # LOWEST priority: only used if no other IngressRoute matches
+    services:
+    - name: fallback-404
+      port: 80
+  tls:
+    secretName: cloudflare-origin-cert # If you use Cloudflare Origin CA, otherwise Traefik's default cert
