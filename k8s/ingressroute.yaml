@@ -8,8 +8,7 @@ spec:
     - web
     - websecure
   routes:
-  - match: PathPrefix(`/`)
- # Matches ANY hostname on ANY domain
+  - match: PathPrefix(`/`) # Matches ANY hostname on ANY domain
     kind: Rule
     priority: 1                  # LOWEST priority: only used if no other IngressRoute matches
     services:
