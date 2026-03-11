@@ -5,6 +5,7 @@ metadata:
   namespace: default # Change this if your app is in a different namespace
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
   - match: PathPrefix(`/`)
